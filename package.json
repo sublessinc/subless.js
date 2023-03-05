@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/node": "^18.14.6",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
     "@webpack-cli/generators": "^3.0.0",

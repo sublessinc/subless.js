@@ -1,8 +1,10 @@
 const sublessHeaders = new Headers();
 sublessHeaders.set("Cache-Control", "no-store");
+// Provided by env files
 const sublessUri = process.env.SUBLESS_URL;
 const sublessCdn = process.env.SUBLESS_CDN;
 const clientBaseUri = location.protocol + "//" + window.location.hostname + (location.port ? ":" + location.port : "") + "/";
+
 
 interface SublessInterface {
     // camelcase is disabled for these so we don't conflict with customer namespaces
@@ -15,11 +17,13 @@ interface SublessInterface {
     sublessShowBanner(): Promise<void>;
 }
 
+// Defines whether hits will be reported using the page URI, or tags conatined within it
 export enum HitStrategy {
     uri,
     tag
 }
 
+// Settings which define the behavior of the embedded js
 interface SublessSettings {
     redirectUri: string;
     postLogoutRedirectUri: string;
@@ -43,8 +47,10 @@ const sublessConfig: SublessSettings = {
  */
 export class Subless implements SublessInterface {
     sublessConfig: Promise<SublessSettings>;
-    /** Attempt to automatically authenticate with subless and record a hit on
-     * initialization.
+    /** On initialization
+     * Get configuration
+     * Verify whether user is authenticated
+     * if so, record a hit, if valid
      * @param {HitStrategy} hitStrategy strategy to use when detecting creator
      */
     constructor(hitStrategy: HitStrategy) {

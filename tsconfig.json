@@ -5,7 +5,9 @@
     "module": "es6",
     "target": "es5",
     "allowJs": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "lib": ["es6", "ES2015", "dom"],
+    "types": ["node"]
   },
   "files": [
     "src/subless.ts",
