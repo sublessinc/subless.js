@@ -8,7 +8,7 @@ workflows:
   build_and_push_js:
     jobs:
       - aws-ecr/build-and-push-image:
-          name: build-push-calc-env-tag
+          name: build-push-js-env-tag
           filters:
             branches:
               only:

@@ -16,14 +16,14 @@
   },
   "scripts": {
     "build": "webpack --mode=production --node-env=prod",
-    "build:local": "webpack --mode=development --node-env=local && bash -c 'mkdir -p ../SublessSignIn/wwwroot/dist/' && cp -r ./dist/* ../SublessSignIn/wwwroot/dist/",
+    "build:local": "webpack --mode=development --node-env=local",
     "build:dev": "webpack --mode=development --node-env=dev",
     "build:stage": "webpack --mode=production --node-env=stage",
     "build:test": "webpack --mode=production --node-env=test",
     "build:prod": "webpack --mode=production --node-env=prod",
     "watch": "webpack --watch"
   },
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Subless Javascript Client API",
   "name": "sublessjs",
   "exports": {
