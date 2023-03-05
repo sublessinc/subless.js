@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "webpack --mode=production --node-env=prod",
-    "build:local": "webpack --mode=development --node-env=local",
+    "build:local": "webpack --mode=development --node-env=local && bash -c 'mkdir -p ../SublessSignIn/wwwroot/dist/' && cp -r ./dist/* ../SublessSignIn/wwwroot/dist/",
     "build:dev": "webpack --mode=development --node-env=dev",
     "build:stage": "webpack --mode=production --node-env=stage",
     "build:test": "webpack --mode=production --node-env=test",
