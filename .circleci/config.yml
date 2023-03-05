@@ -1,0 +1,26 @@
+version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@7.3.0
+  aws-ecs: circleci/aws-ecs@2.2.1
+  browser-tools: circleci/browser-tools@1.2.1
+
+workflows:
+  build_and_push_js:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          name: build-push-js-env-tag
+          filters:
+            branches:
+              only:
+                - dev
+                - stage
+                - prod
+          account-url: AWS_ACCOUNT_URL
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          dockerfile: Dockerfile
+          path: ./
+          region: AWS_DEFAULT_REGION
+          repo: subless-js
+          skip-when-tags-exist: false
+          tag: $CIRCLE_BRANCH
