@@ -159,7 +159,7 @@ export class Subless implements SublessInterface {
         await body.then((response) => response.json());
     }
 
-    /** Inserts banner ad into the page */
+    /** Inserts subless message into the page */
     async sublessShowBanner(): Promise<void> {
         const messageDiv = document.getElementById("sublessMessage");
         const link = document.createElement("a");
@@ -176,7 +176,7 @@ export class Subless implements SublessInterface {
         }
     }
 
-    /** Gets a random message ad and corresponding link
+    /** Gets a random subless message and corresponding link
      * @return {[string, string]}tuple of image and target URI
     */
     private getmessage(): [string, string] {
@@ -186,32 +186,6 @@ export class Subless implements SublessInterface {
             return [img, `https://www.subless.com/hf-creator-instructions?utm_campaign=message${message}`];
         }
         return [img, `https://www.subless.com/patron?utm_campaign=message${message}`];
-    }
-
-    /** Fades in an element
-     * @param {HTMLElement} el element to fade
-    */
-    fadeInAndOut(el: HTMLElement) {
-        el.style.opacity = "0";
-        let fadeout = false;
-        const tick = function () {
-            if (!fadeout) {
-                el.style.opacity = +el.style.opacity + 0.02 + "";
-            } else {
-                el.style.opacity = +el.style.opacity - 0.02 + "";
-            }
-            if (fadeout && +el.style.opacity == 0) {
-                document.body.removeChild(el);
-                return;
-            }
-            if (!fadeout && +el.style.opacity >= 1) {
-                fadeout = true;
-            }
-            if (fadeout || +el.style.opacity < 1) {
-                (requestAnimationFrame(tick)) || setTimeout(tick, 16);
-            }
-        };
-        tick();
     }
 
     /** A method that can be used to log a user out from Subless */
