@@ -13,7 +13,6 @@ interface SublessInterface {
     subless_LoggedIn(): Promise<boolean>; // eslint-disable-line camelcase
     subless_hit(): Promise<void>; // eslint-disable-line camelcase
     sublessLogout(): Promise<void>;
-    sublessShowLogo(): Promise<void>;
     sublessShowBanner(): Promise<void>;
 }
 
@@ -58,7 +57,7 @@ export class Subless implements SublessInterface {
         this.subless_hit();
     }
 
-    /** Query Subless for the latest authorization details for the Subless server.
+    /** Query Subless for the latest authorization configuration for the Subless server.
      * @param {HitStrategy} hitStrategy strategy to use when detecting creator
     */
     async subless_GetConfig(hitStrategy: HitStrategy): Promise<SublessSettings> {
@@ -141,10 +140,7 @@ export class Subless implements SublessInterface {
                     }),
                     credentials: "include",
                 });
-            const result = await body.then((response) => response.json());
-            if (result === true) {
-                this.sublessShowLogo();
-            }
+            await body.then((response) => response.json());
         }
     }
 
@@ -160,23 +156,7 @@ export class Subless implements SublessInterface {
                 body: window.location.origin + window.location.pathname,
                 credentials: "include",
             });
-        const result = await body.then((response) => response.json());
-        if (result === true) {
-            this.sublessShowLogo();
-        }
-    }
-
-    /** Shows logo at bottom right corner */
-    async sublessShowLogo() {
-        const img = document.createElement("img");
-        img.style.position = "absolute";
-        img.style.bottom = "0";
-        img.style.right = "0";
-        img.style.width = "5%";
-        img.src = sublessUri + "/dist/assets/SublessIcon.svg";
-        img.id = "sublessHitIndicator";
-        document.body.appendChild(img);
-        this.fadeInAndOut(img);
+        await body.then((response) => response.json());
     }
 
     /** Inserts banner ad into the page */
