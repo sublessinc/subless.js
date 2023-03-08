@@ -5,7 +5,6 @@ const sublessUri = process.env.SUBLESS_URL;
 const sublessCdn = process.env.SUBLESS_CDN;
 const clientBaseUri = location.protocol + "//" + window.location.hostname + (location.port ? ":" + location.port : "") + "/";
 
-
 interface SublessInterface {
     // camelcase is disabled for these so we don't conflict with customer namespaces
     subless_GetConfig(hitStrategy: HitStrategy): Promise<SublessSettings>; // eslint-disable-line camelcase
