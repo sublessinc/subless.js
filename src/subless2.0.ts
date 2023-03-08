@@ -158,7 +158,7 @@ export class Subless implements SublessInterface {
         await body.then((response) => response.json());
     }
 
-    /** Inserts subless message into the page */
+    /** Inserts subless message into the page. Used for optional feature to display banner ads from subless cdn */
     async sublessShowBanner(): Promise<void> {
         const messageDiv = document.getElementById("sublessMessage");
         const link = document.createElement("a");
