@@ -1,5 +1,6 @@
 const sublessHeaders = new Headers();
 sublessHeaders.set("Cache-Control", "no-store");
+// Provided by env files
 const sublessUri = process.env.SUBLESS_URL;
 const sublessCdn = process.env.SUBLESS_CDN;
 const clientBaseUri = location.protocol + "//" + window.location.hostname + (location.port ? ":" + location.port : "") + "/";
@@ -11,15 +12,16 @@ interface SublessInterface {
     subless_LoggedIn(): Promise<boolean>; // eslint-disable-line camelcase
     subless_hit(): Promise<void>; // eslint-disable-line camelcase
     sublessLogout(): Promise<void>;
-    sublessShowLogo(): Promise<void>;
     sublessShowBanner(): Promise<void>;
 }
 
+// Defines whether hits will be reported using the page URI, or tags conatined within it
 export enum HitStrategy {
     uri,
     tag
 }
 
+// Settings which define the behavior of the embedded js
 interface SublessSettings {
     redirectUri: string;
     postLogoutRedirectUri: string;
@@ -43,8 +45,10 @@ const sublessConfig: SublessSettings = {
  */
 export class Subless implements SublessInterface {
     sublessConfig: Promise<SublessSettings>;
-    /** Attempt to automatically authenticate with subless and record a hit on
-     * initialization.
+    /** On initialization
+     * Get configuration
+     * Verify whether user is authenticated
+     * if so, record a hit, if valid
      * @param {HitStrategy} hitStrategy strategy to use when detecting creator
      */
     constructor(hitStrategy: HitStrategy) {
@@ -52,7 +56,7 @@ export class Subless implements SublessInterface {
         this.subless_hit();
     }
 
-    /** Query Subless for the latest authorization details for the Subless server.
+    /** Query Subless for the latest authorization configuration for the Subless server.
      * @param {HitStrategy} hitStrategy strategy to use when detecting creator
     */
     async subless_GetConfig(hitStrategy: HitStrategy): Promise<SublessSettings> {
@@ -135,10 +139,7 @@ export class Subless implements SublessInterface {
                     }),
                     credentials: "include",
                 });
-            const result = await body.then((response) => response.json());
-            if (result === true) {
-                this.sublessShowLogo();
-            }
+            await body.then((response) => response.json());
         }
     }
 
@@ -154,26 +155,10 @@ export class Subless implements SublessInterface {
                 body: window.location.origin + window.location.pathname,
                 credentials: "include",
             });
-        const result = await body.then((response) => response.json());
-        if (result === true) {
-            this.sublessShowLogo();
-        }
+        await body.then((response) => response.json());
     }
 
-    /** Shows logo at bottom right corner */
-    async sublessShowLogo() {
-        const img = document.createElement("img");
-        img.style.position = "absolute";
-        img.style.bottom = "0";
-        img.style.right = "0";
-        img.style.width = "5%";
-        img.src = sublessUri + "/dist/assets/SublessIcon.svg";
-        img.id = "sublessHitIndicator";
-        document.body.appendChild(img);
-        this.fadeInAndOut(img);
-    }
-
-    /** Inserts banner ad into the page */
+    /** Inserts subless message into the page. Used for optional feature to display banner ads from subless cdn */
     async sublessShowBanner(): Promise<void> {
         const messageDiv = document.getElementById("sublessMessage");
         const link = document.createElement("a");
@@ -190,7 +175,7 @@ export class Subless implements SublessInterface {
         }
     }
 
-    /** Gets a random message ad and corresponding link
+    /** Gets a random subless message and corresponding link
      * @return {[string, string]}tuple of image and target URI
     */
     private getmessage(): [string, string] {
@@ -200,32 +185,6 @@ export class Subless implements SublessInterface {
             return [img, `https://www.subless.com/hf-creator-instructions?utm_campaign=message${message}`];
         }
         return [img, `https://www.subless.com/patron?utm_campaign=message${message}`];
-    }
-
-    /** Fades in an element
-     * @param {HTMLElement} el element to fade
-    */
-    fadeInAndOut(el: HTMLElement) {
-        el.style.opacity = "0";
-        let fadeout = false;
-        const tick = function () {
-            if (!fadeout) {
-                el.style.opacity = +el.style.opacity + 0.02 + "";
-            } else {
-                el.style.opacity = +el.style.opacity - 0.02 + "";
-            }
-            if (fadeout && +el.style.opacity == 0) {
-                document.body.removeChild(el);
-                return;
-            }
-            if (!fadeout && +el.style.opacity >= 1) {
-                fadeout = true;
-            }
-            if (fadeout || +el.style.opacity < 1) {
-                (requestAnimationFrame(tick)) || setTimeout(tick, 16);
-            }
-        };
-        tick();
     }
 
     /** A method that can be used to log a user out from Subless */

@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/node": "^18.14.6",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
     "@webpack-cli/generators": "^3.0.0",
@@ -16,7 +17,7 @@
   },
   "scripts": {
     "build": "webpack --mode=production --node-env=prod",
-    "build:local": "webpack --mode=development --node-env=local && bash -c 'mkdir -p ../SublessSignIn/wwwroot/dist/' && cp -r ./dist/* ../SublessSignIn/wwwroot/dist/",
+    "build:local": "webpack --mode=development --node-env=local && bash -c 'mkdir -p ../SublessSignIn/SublessSignIn/wwwroot/dist/' && cp -r ./dist/* ../SublessSignIn/SublessSignIn/wwwroot/dist/",
     "build:dev": "webpack --mode=development --node-env=dev",
     "build:stage": "webpack --mode=production --node-env=stage",
     "build:test": "webpack --mode=production --node-env=test",
