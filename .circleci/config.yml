@@ -15,7 +15,6 @@ workflows:
                 - dev
                 - stage
                 - prod
-                - bugfix/docker-arg
           account-url: AWS_ACCOUNT_URL
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
@@ -24,5 +23,5 @@ workflows:
           region: AWS_DEFAULT_REGION
           repo: subless-js
           skip-when-tags-exist: false
-          tag: foo
-          extra-build-args: '--build-arg build_environment=foo'
+          tag: $CIRCLE_BRANCH
+          extra-build-args: '--build-arg build_environment=${CIRCLE_BRANCH}'
