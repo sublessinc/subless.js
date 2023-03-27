@@ -15,6 +15,7 @@ workflows:
                 - dev
                 - stage
                 - prod
+                - bugfix/docker-arg
           account-url: AWS_ACCOUNT_URL
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
