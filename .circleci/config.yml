@@ -24,3 +24,4 @@ workflows:
           repo: subless-js
           skip-when-tags-exist: false
           tag: $CIRCLE_BRANCH
+          extra-build-args: '--build-arg build_environment=${CIRCLE_BRANCH}'
